@@ -1,8 +1,8 @@
 import {
-	userCollection
+  userCollection
 } from './config.js'
 import {
-	log
+  log
 } from './utils'
 import uniToken from './uniToken'
 
@@ -11,31 +11,31 @@ import uniToken from './uniToken'
  * @param {Object} context
  */
 const db = uniCloud.database()
-async function logout(token) {
-	const payload = await uniToken.checkToken(token)
+async function logout (token) {
+  const payload = await uniToken.checkToken(token)
 
-	if (payload.code && payload.code > 0) {
-		return payload
-	}
+  if (payload.code && payload.code > 0) {
+    return payload
+  }
 
-	const dbCmd = db.command
-	const upRes = await userCollection.doc(payload.uid).update({
-		token: dbCmd.pull(token)
-	})
+  const dbCmd = db.command
+  const upRes = await userCollection.doc(payload.uid).update({
+    token: dbCmd.pull(token)
+  })
 
-	log('logout->upRes', upRes)
+  log('logout->upRes', upRes)
 
-	if (upRes.updated === 0) {
-		return {
-			code: 1101,
-			msg: '用户不存在'
-		}
-	}
+  if (upRes.updated === 0) {
+    return {
+      code: 1101,
+      msg: '用户不存在'
+    }
+  }
 
-	return {
-		code: 0,
-		msg: '退出成功'
-	}
+  return {
+    code: 0,
+    msg: '退出成功'
+  }
 }
 
 export default logout

@@ -18,16 +18,16 @@ import uniToken from './uniToken.js'
 const checkToken = uniToken.checkToken
 
 export default {
-	register,
-	registerByEmail,
-	registerByMobile,
-	login,
-	loginByPwd,
-	loginBySms,
-	logout,
-	updatePwd,
-	setAvatar,
-	bindMobile,
-	bindEmail,
-	checkToken
+  register,
+  registerByEmail,
+  registerByMobile,
+  login,
+  loginByPwd,
+  loginBySms,
+  logout,
+  updatePwd,
+  setAvatar,
+  bindMobile,
+  bindEmail,
+  checkToken
 }
