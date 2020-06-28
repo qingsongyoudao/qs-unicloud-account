@@ -1,7 +1,11 @@
 'use strict'
 
 import register from './register.js'
+import registerByEmail from './registerByEmail.js'
+import registerByMobile from './registerByMobile.js'
 import login from './login.js'
+import loginByPwd from './loginByPwd.js'
+import loginBySms from './loginBySms.js'
 import logout from './logout.js'
 import updatePwd from './updatePwd.js'
 // import updateUser from './updateUser.js'
@@ -14,12 +18,16 @@ import uniToken from './uniToken.js'
 const checkToken = uniToken.checkToken
 
 export default {
-  register,
-  login,
-  logout,
-  updatePwd,
-  setAvatar,
-  bindMobile,
-  bindEmail,
-  checkToken
+	register,
+	registerByEmail,
+	registerByMobile,
+	login,
+	loginByPwd,
+	loginBySms,
+	logout,
+	updatePwd,
+	setAvatar,
+	bindMobile,
+	bindEmail,
+	checkToken
 }

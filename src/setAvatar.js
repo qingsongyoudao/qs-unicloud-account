@@ -1,29 +1,37 @@
 // import uniToken from './uniToken.js'
-import { userCollection } from './config.js'
-import { log } from './utils'
+import {
+	userCollection
+} from './config.js'
+import {
+	log
+} from './utils'
 
-/** 设置头像
- * @param {Object} params
- */
-async function setAvatar (params) {
-  try {
-    const upRes = await userCollection.doc(params.uid).update({
-      avatar: params.avatar
-    })
+async function setAvatar(params) {
+	try {
+		// 数据
+		let data = {}
 
-    log('setAvatar -> upRes', upRes)
+		// 操作
+		const upRes = await userCollection.doc(params.uid).update({
+			avatar: params.avatar
+		})
+		data = upRes
+		log('setAvatar -> upRes', upRes)
 
-    return {
-      code: 0,
-      msg: '设置成功'
-    }
-  } catch (e) {
-    log('发生异常', e)
-    return {
-      code: 1104,
-      msg: '数据库写入异常'
-    }
-  }
+		// 返回数据给客户端
+		return {
+			code: 0,
+			msg: '设置成功',
+			data: data
+		}
+	} catch (e) {
+		log('发生异常', e)
+		// 返回数据给客户端
+		return {
+			code: 1104,
+			msg: '数据库写入异常'
+		}
+	}
 }
 
 export default setAvatar
