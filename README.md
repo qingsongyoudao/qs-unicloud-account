@@ -24,14 +24,14 @@ npm run build
 3. 在`qs-account`右键上传公用模块
 
 ### 引入公用模块
-1. 在要引入公用模块的云函数目录（本例中为`use-common`）执行`npm init -y`生成`package.json`文件
-2. 在`use-common`目录执行`npm install ../common/qs-account`引入`qs-account`模块
+1. 在要引入公用模块的云函数目录（本例中为`account`）执行`npm init -y`生成`package.json`文件
+2. 在`account`目录执行`npm install ../common/qs-account`引入`qs-account`模块
 3. 在云函数中调用，示例代码：
 
 ```js
 'use strict';
 
-const qsaccount = require('qs-account')
+const qsAccount = require('qs-account')
 
 exports.main = async (event, context) => {
 	//event为客户端上传的参数
@@ -45,8 +45,17 @@ exports.main = async (event, context) => {
 	let res = {}
 
 	switch (action) {
-		case 'category':
-			res = await qsaccount.accountList(params);
+		case 'login-pwd':
+			res = await qsAccount.loginByPwd(params);
+			break;
+		case 'login-sms':
+			res = await qsAccount.loginBySms(params);
+			break;
+		case 'register-email':
+			res = await qsAccount.registerByEmail(params);
+			break;
+		case 'register-mobile':
+			res = await qsAccount.registerByMobile(params);
 			break;
 		default:
 			res = {
