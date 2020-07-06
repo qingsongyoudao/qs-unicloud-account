@@ -32,6 +32,14 @@ module.exports = function (moduleName) {
             dest: 'dist'
           },
           {
+            src: 'ext/LICENSE.md',
+            dest: 'dist'
+          },
+          {
+            src: 'ext/README.md',
+            dest: 'dist'
+          },
+          {
             src: 'ext/config.json',
             dest: 'dist'
           }

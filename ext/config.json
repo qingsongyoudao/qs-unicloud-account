@@ -1,6 +1,6 @@
 {
-	"passwordSecret": "passwordSecret-demo",
-	"tokenSecret": "tokenSecret-demo",
+	"passwordSecret": "passwordSecret",
+	"tokenSecret": "tokenSecret",
 	"tokenExpiresIn": 7200,
 	"app-plus": {
 		"tokenExpiresIn": 2592000
