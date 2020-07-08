@@ -120,13 +120,13 @@ async function loginByPwd (params) {
       } else {
         return {
           code: 1102,
-          msg: '密码错误'
+          msg: '密码不正确'
         }
       }
     } else {
       return {
         code: 1101,
-        msg: '用户不存在'
+        msg: '账号不正确'
       }
     }
   } catch (e) {

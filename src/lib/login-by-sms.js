@@ -101,7 +101,7 @@ async function loginBySms (params) {
     } else {
       return {
         code: 1101,
-        msg: '用户不存在'
+        msg: '手机号不正确'
       }
     }
   } catch (e) {
