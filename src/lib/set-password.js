@@ -1,50 +1,41 @@
+import encryptPwd from './encrypt-pwd'
 import {
   userCollection,
   log
 } from '../share/index'
 
-async function bindMobile (params) {
+async function setPassword (params) {
   // 对象
   const model = {
     id: params.id,
-    mobile: params.mobile,
-    verifyCode: params.verifyCode
+    password: params.password,
+    confirmPassword: params.confirmPassword
   }
   // 数据
-  let resData = {}
+  let data = {}
 
   const userInDB = await userCollection.doc(model.id).get()
 
   log('userInDB:', userInDB)
 
   if (userInDB && userInDB.data && userInDB.data.length > 0) {
-    // 检查
-    const countRes = await userCollection.where({
-      mobile: model.mobile
-    }).count()
-    if (countRes && countRes.total > 0) {
-      return {
-        code: 1101,
-        msg: '此邮箱已被绑定'
-      }
-    }
-
     try {
       // 操作
       const upRes = await userCollection.doc(userInDB.data[0]._id).update({
-        mobile: model.mobile
+        password: encryptPwd(model.password),
+        token: []
       })
 
       log('upRes', upRes)
 
       // 设置数据
-      resData = upRes
+      data = upRes
 
       // 返回数据给客户端
       return {
         code: 1,
-        msg: '绑定成功',
-        data: resData
+        msg: '设置成功',
+        data: data
       }
     } catch (e) {
       log('发生异常', e)
@@ -63,4 +54,4 @@ async function bindMobile (params) {
   }
 }
 
-export default bindMobile
+export default setPassword

@@ -31,7 +31,7 @@ async function logout (token) {
   }
 
   return {
-    code: 0,
+    code: 1,
     msg: '退出成功'
   }
 }

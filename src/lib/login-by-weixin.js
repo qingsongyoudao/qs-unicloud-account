@@ -7,6 +7,9 @@ import getWeixinApi from '../common/weixin-api'
 
 const db = uniCloud.database()
 async function loginByWeixin (code) {
+  // 数据
+  let resData = {}
+
   const clientPlatform = __ctx__.PLATFORM
   const {
     openid,
@@ -58,13 +61,19 @@ async function loginByWeixin (code) {
       }
       const upRes = await userCollection.doc(userMatched._id).update(updateData)
       log('upRes', upRes)
-      return {
-        code: 0,
-        token,
+
+      // 设置数据
+      resData = {
         uid: userMatched._id,
-        username: userMatched.username,
-        msg: '登录成功',
+        username: userMatched.userName,
+        token,
         tokenExpired
+      }
+
+      return {
+        code: 1,
+        msg: '登录成功',
+        data: resData
       }
     } catch (e) {
       log('写入异常：', e)
@@ -93,12 +102,18 @@ async function loginByWeixin (code) {
       await userCollection.doc(uid).update({
         token: [token]
       })
-      return {
-        code: 0,
-        token: token,
-        uid: addRes.id,
-        msg: '登录成功',
+
+      // 设置数据
+      resData = {
+        uid: addRes._id,
+        token,
         tokenExpired
+      }
+
+      return {
+        code: 1,
+        msg: '登录成功',
+        data: resData
       }
     } catch (e) {
       log('写入异常：', e)

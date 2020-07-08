@@ -3,26 +3,45 @@ import {
   log
 } from '../share/index'
 
-/** 修改用户信息
- * @param {Object} params
- */
 async function updateUser (params) {
-  const uid = params.uid
-  delete params.uid
-  try {
-    const upRes = await userCollection.doc(uid).update(params)
+  // 对象
+  const model = params.model
+  // 数据
+  let resData = {}
 
-    log('update -> upRes', upRes)
+  const userInDB = await userCollection.doc(params.id).get()
 
-    return {
-      code: 0,
-      msg: '修改成功'
+  log('userInDB:', userInDB)
+
+  if (userInDB && userInDB.data && userInDB.data.length > 0) {
+    try {
+      // 操作
+      const upRes = await userCollection.doc(userInDB.data[0]._id).update(model)
+
+      log('upRes', upRes)
+
+      // 设置数据
+      resData = upRes
+
+      // 返回数据给客户端
+      return {
+        code: 1,
+        msg: '修改成功',
+        data: resData
+      }
+    } catch (e) {
+      log('发生异常', e)
+      // 返回数据给客户端
+      return {
+        code: 1104,
+        msg: '数据库写入异常'
+      }
     }
-  } catch (e) {
-    log('发生异常', e)
+  } else {
+    // 返回数据给客户端
     return {
-      code: 1104,
-      msg: '数据库写入异常'
+      code: 1101,
+      msg: '用户不存在'
     }
   }
 }

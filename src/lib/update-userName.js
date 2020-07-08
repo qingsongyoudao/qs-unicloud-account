@@ -3,12 +3,11 @@ import {
   log
 } from '../share/index'
 
-async function bindMobile (params) {
+async function updateUserName (params) {
   // 对象
   const model = {
     id: params.id,
-    mobile: params.mobile,
-    verifyCode: params.verifyCode
+    newUserName: params.newUserName
   }
   // 数据
   let resData = {}
@@ -20,19 +19,19 @@ async function bindMobile (params) {
   if (userInDB && userInDB.data && userInDB.data.length > 0) {
     // 检查
     const countRes = await userCollection.where({
-      mobile: model.mobile
+      userName: model.newUserName
     }).count()
     if (countRes && countRes.total > 0) {
       return {
         code: 1101,
-        msg: '此邮箱已被绑定'
+        msg: '此用户名已上存在'
       }
     }
 
     try {
       // 操作
       const upRes = await userCollection.doc(userInDB.data[0]._id).update({
-        mobile: model.mobile
+        userName: model.newUserName
       })
 
       log('upRes', upRes)
@@ -43,7 +42,7 @@ async function bindMobile (params) {
       // 返回数据给客户端
       return {
         code: 1,
-        msg: '绑定成功',
+        msg: '修改成功',
         data: resData
       }
     } catch (e) {
@@ -63,4 +62,4 @@ async function bindMobile (params) {
   }
 }
 
-export default bindMobile
+export default updateUserName

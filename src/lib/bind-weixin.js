@@ -5,15 +5,20 @@ import {
 import getWeixinApi from '../common/weixin-api'
 
 const db = uniCloud.database()
-async function bindWeixin ({
-  uid,
-  code
-}) {
+async function bindWeixin (params) {
+  // 对象
+  const model = {
+    id: params.id,
+    code: params.code
+  }
+  // 数据
+  let resData = {}
+
   const clientPlatform = __ctx__.PLATFORM
   const {
     openid,
     unionid
-  } = await getWeixinApi()[clientPlatform === 'mp-weixin' ? 'code2Session' : 'getOauthAccessToken'](code)
+  } = await getWeixinApi()[clientPlatform === 'mp-weixin' ? 'code2Session' : 'getOauthAccessToken'](model.code)
   if (!openid) {
     throw new Error('获取openid失败')
   }
@@ -45,16 +50,22 @@ async function bindWeixin ({
     if (unionid) {
       updateData.wx_unionid = unionid
     }
-    const upRes = await userCollection.doc(uid).update(updateData)
+    const upRes = await userCollection.doc(model.id).update(updateData)
+
+    // 设置数据
+    resData = upRes
+
     if (upRes.updated === 1) {
       return {
-        code: 0,
-        msg: '绑定成功'
+        code: 1,
+        msg: '绑定成功',
+        data: resData
       }
     } else {
       return {
         code: 1102,
-        msg: '微信绑定失败，请稍后再试'
+        msg: '微信绑定失败，请稍后再试',
+        data: resData
       }
     }
   } catch (e) {

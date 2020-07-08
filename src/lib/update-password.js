@@ -1,35 +1,43 @@
-import encryptPwd from './encryptPwd.js'
+import encryptPwd from './encrypt-pwd'
 import {
-  userCollection
-} from './config.js'
-import {
+  userCollection,
   log
-} from './utils'
+} from '../share/index'
 
-async function updatePwd (params) {
+async function updatePassword (params) {
+  // 对象
+  const model = {
+    id: params.id,
+    oldPassword: params.oldPassword,
+    newPassword: params.newPassword,
+    confirmPassword: params.confirmPassword
+  }
   // 数据
   let data = {}
 
-  const userInDB = await userCollection.doc(params.uid).get()
+  const userInDB = await userCollection.doc(model.id).get()
 
   log('userInDB:', userInDB)
 
   if (userInDB && userInDB.data && userInDB.data.length > 0) {
     const pwdInDB = userInDB.data[0].password
 
-    if (encryptPwd(params.oldPassword) === pwdInDB) { // 旧密码匹配
+    if (encryptPwd(model.oldPassword) === pwdInDB) { // 旧密码匹配
       try {
         // 操作
         const upRes = await userCollection.doc(userInDB.data[0]._id).update({
-          password: encryptPwd(params.newPassword),
+          password: encryptPwd(model.newPassword),
           token: []
         })
-        data = upRes
+
         log('upRes', upRes)
+
+        // 设置数据
+        data = upRes
 
         // 返回数据给客户端
         return {
-          code: 0,
+          code: 1,
           msg: '修改成功',
           data: data
         }
@@ -57,4 +65,4 @@ async function updatePwd (params) {
   }
 }
 
-export default updatePwd
+export default updatePassword

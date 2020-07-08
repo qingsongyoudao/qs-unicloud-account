@@ -3,11 +3,11 @@ import {
   log
 } from '../share/index'
 
-async function bindMobile (params) {
+async function updateMobile (params) {
   // 对象
   const model = {
     id: params.id,
-    mobile: params.mobile,
+    newMobile: params.newMobile,
     verifyCode: params.verifyCode
   }
   // 数据
@@ -20,7 +20,7 @@ async function bindMobile (params) {
   if (userInDB && userInDB.data && userInDB.data.length > 0) {
     // 检查
     const countRes = await userCollection.where({
-      mobile: model.mobile
+      mobile: model.newMobile
     }).count()
     if (countRes && countRes.total > 0) {
       return {
@@ -32,7 +32,7 @@ async function bindMobile (params) {
     try {
       // 操作
       const upRes = await userCollection.doc(userInDB.data[0]._id).update({
-        mobile: model.mobile
+        mobile: model.newMobile
       })
 
       log('upRes', upRes)
@@ -43,7 +43,7 @@ async function bindMobile (params) {
       // 返回数据给客户端
       return {
         code: 1,
-        msg: '绑定成功',
+        msg: '换绑成功',
         data: resData
       }
     } catch (e) {
@@ -63,4 +63,4 @@ async function bindMobile (params) {
   }
 }
 
-export default bindMobile
+export default updateMobile
