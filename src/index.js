@@ -1,33 +1,39 @@
 'use strict'
 
-import register from './register.js'
-import registerByEmail from './registerByEmail.js'
-import registerByMobile from './registerByMobile.js'
-import login from './login.js'
-import loginByPwd from './loginByPwd.js'
-import loginBySms from './loginBySms.js'
-import logout from './logout.js'
-import updatePwd from './updatePwd.js'
-// import updateUser from './updateUser.js'
-// import deleteUser from './deleteUser.js'
-import setAvatar from './setAvatar.js'
-import bindMobile from './bindMobile.js'
-import bindEmail from './bindEmail.js'
-import uniToken from './uniToken.js'
+import registerByUserName from './lib/register-by-userName.js'
+import registerByEmail from './lib/register-by-email.js'
+import registerByMobile from './lib/register-by-mobile.js'
+import login from './lib/login'
+import loginByWeixin from './lib/login-by-weixin'
+import bindWeixin from './lib/bind-weixin'
+import unbindWeixin from './lib/unbind-weixin'
+import logout from './lib/logout'
+import updatePwd from './lib/update-pwd'
+import updateUser from './lib/update-user'
+import setAvatar from './lib/set-avatar'
+import bindMobile from './lib/bind-mobile'
+import bindEmail from './lib/bind-email'
+import uniToken from './lib/uni-token'
+import encryptPwd from './lib/encrypt-pwd'
+import resetPwd from './lib/reset-pwd'
 
 const checkToken = uniToken.checkToken
 
 export default {
-  register,
+  registerByUserName,
   registerByEmail,
   registerByMobile,
   login,
-  loginByPwd,
-  loginBySms,
+  loginByWeixin,
+  bindWeixin,
+  unbindWeixin,
   logout,
   updatePwd,
+  updateUser,
   setAvatar,
   bindMobile,
   bindEmail,
-  checkToken
+  checkToken,
+  encryptPwd,
+  resetPwd
 }

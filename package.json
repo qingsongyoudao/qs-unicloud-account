@@ -1,6 +1,6 @@
 {
   "name": "qs-unicloud-account",
-  "version": "1.0.5",
+  "version": "1.0.10",
   "description": "qs-account for uniCloud",
   "main": "dist/index.js",
   "homepage": "https://github.com/qingsongyoudao",

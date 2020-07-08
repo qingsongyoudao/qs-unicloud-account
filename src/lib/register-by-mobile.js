@@ -1,31 +1,24 @@
-import encryptPwd from './encryptPwd.js'
+import encryptPwd from './encrypt-pwd'
 import {
-  userCollection
-} from './config.js'
-import uniToken from './uniToken.js'
-import {
+  userCollection,
   log
-} from './utils'
+} from '../share/index'
+import uniToken from './uni-token'
 
 async function registerByMobile (params) {
   // 对象
-  const model = params.model
+  const model = {
+    mobile: params.mobile,
+    password: params.password,
+    status: 'normal',
+    regDate: '',
+    regIp: '',
+    regPlatform: ''
+  }
   // 数据
   let data = {}
 
   // 检查
-  if (model.mobile && model.mobile.trim().length === 0) {
-    return {
-      code: 1101,
-      msg: '请输入手机号'
-    }
-  }
-  if (model.password && model.password.trim().length === 0) {
-    return {
-      code: 1101,
-      msg: '请设置密码'
-    }
-  }
   const countRes = await userCollection.where({
     mobile: model.mobile
   }).count()
@@ -40,15 +33,18 @@ async function registerByMobile (params) {
   model.password = encryptPwd(model.password)
   model.regDate = new Date().getTime()
   model.regIp = __ctx__.CLIENTIP
+  model.regPlatform = ''
 
   // 操作
   const addRes = await userCollection.add(model)
-  data = addRes
   log('addRes', addRes)
 
   // 设置
   const uid = addRes.id
-  const token = uniToken.createToken({
+  const {
+    token,
+    tokenExpired
+  } = uniToken.createToken({
     _id: uid
   })
   // 更新
@@ -56,14 +52,19 @@ async function registerByMobile (params) {
     token: [token]
   })
 
+  // 设置数据
+  data = {
+    uid,
+    username: model.mobile,
+    token,
+    tokenExpired
+  }
+
   if (addRes.id) {
     // 返回数据给客户端
     return {
-      code: 0,
+      code: 1,
       msg: '注册成功',
-      uid,
-      userName: '',
-      token,
       data: data
     }
   }
