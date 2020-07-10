@@ -24,6 +24,8 @@ import updateUser from './lib/update-user'
 import uniToken from './lib/uni-token'
 import encryptPwd from './lib/encrypt-pwd'
 import resetPwd from './lib/reset-pwd'
+import getAccount from './lib/get-account.js'
+import getUser from './lib/get-user.js'
 
 const checkToken = uniToken.checkToken
 
@@ -51,5 +53,7 @@ export default {
   updateUser,
   checkToken,
   encryptPwd,
-  resetPwd
+  resetPwd,
+  getAccount,
+  getUser
 }
