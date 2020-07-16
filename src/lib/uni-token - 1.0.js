@@ -27,7 +27,6 @@ const uniToken = {
       tokenExpired: Date.now() + config.tokenExpiresIn * 1000
     }
   },
-
   refreshToken: function () {
     // TODO
   },
@@ -82,7 +81,6 @@ const uniToken = {
       }
     }
   },
-
   getExpiredToken (tokenList) {
     const config = getConfig()
     const tokenExpired = []

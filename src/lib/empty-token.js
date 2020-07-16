@@ -3,11 +3,9 @@ import {
   log
 } from '../share/index'
 
-const db = uniCloud.database()
-async function logout (id, token) {
-  const dbCmd = db.command
+async function emptyToken (id) {
   const upRes = await userCollection.doc(id).update({
-    token: dbCmd.pull(token)
+    token: []
   })
 
   log('logout->upRes', upRes)
@@ -25,4 +23,4 @@ async function logout (id, token) {
   }
 }
 
-export default logout
+export default emptyToken

@@ -7,6 +7,7 @@ import loginByPwd from './lib/login-by-pwd.js'
 import loginBySms from './lib/login-by-sms.js'
 import loginByWeixin from './lib/login-by-weixin'
 import logout from './lib/logout'
+import emptyToken from './lib/empty-token.js'
 import setPassword from './lib/set-password.js'
 import updatePassword from './lib/update-password.js'
 import setUserName from './lib/set-userName.js'
@@ -37,6 +38,7 @@ export default {
   loginBySms,
   loginByWeixin,
   logout,
+  emptyToken,
   setPassword,
   updatePassword,
   setUserName,
