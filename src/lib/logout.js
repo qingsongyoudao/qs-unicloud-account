@@ -12,10 +12,6 @@ const db = uniCloud.database()
 async function logout (token) {
   const payload = await uniToken.checkToken(token)
 
-  if (payload.code && payload.code > 0) {
-    return payload
-  }
-
   const dbCmd = db.command
   const upRes = await userCollection.doc(payload.uid).update({
     token: dbCmd.pull(token)
