@@ -24,6 +24,12 @@ async function loginBySms (params) {
         msg: '请输入手机号'
       }
     }
+    if (params.verifyCode.toString() !== params.codeId.toString()) {
+      return {
+        code: 1101,
+        msg: '验证码不正确'
+      }
+    }
 
     // 查询条件
     const query = {
